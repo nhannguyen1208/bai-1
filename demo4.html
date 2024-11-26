@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 450px;
+            background-color: rgb(205, 195, 195);
+            border: 2px solid red;
+            padding: 20px;
+            margin: auto;
+        }
+        .title{
+            color: blue;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            display: inline-block;
+            width: 100px;
+            margin: 0;
+        }
+        .input-field {
+            width: 280px;
+            height: 25px;
+        }
+        #year_select {
+            width: 50px;
+        }
+        .result {
+            color: red;
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button-group {
+            text-align: center;
+        }
+        button {
+            margin: 0 10px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">BANG DIEM CUA EM</h1>
+        <div class="input-group">
+            <p class="input-label">Semester1:</p>
+            <input type="text" id="sem1_score" class="input-field">
+        </div>
+        <div class="input-group">
+            <p class="input-label">Semester2:</p>
+            <input type="text" id="sem2_score" class="input-field">
+        </div>
+        <div class="input-group">
+            <p class="input-label">Year:</p>
+            <select id="year_select">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <p class="input-label">Summarise:</p>
+            <input type="text" id="sum" class="input-field" readonly>
+        </div>
+        <div id="result" class="result"></div>
+        <div class="button-group">
+            <button id="submit">OK</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </div>
+    <script>
+        var submitBtn = document.getElementById('submit');
+        var cancelBtn = document.getElementById('cancel');
+        var sem1ScoreInput = document.getElementById('sem1_score');
+        var sem2ScoreInput = document.getElementById('sem2_score');
+        var yearSelect = document.getElementById('year_select');
+        var sumInput = document.getElementById('sum');
+        var resultDiv = document.getElementById('result');
+
+        submitBtn.onclick = function() {
+            var sem1Score = parseFloat(sem1ScoreInput.value);
+            var sem2Score = parseFloat(sem2ScoreInput.value);
+            var year = parseInt(yearSelect.value);
+            var result;
+
+            if (year == 1) {
+                result = (sem1Score + sem2Score) / 2;
+            } else if (year == 2) {
+                result = (sem1Score + sem2Score * 2) / 3;
+            } else if (year == 3) {
+                result = (sem1Score + sem2Score * 3) / 4;
+            } else {
+                result = (sem1Score + sem2Score * 4) / 5;
+            }
+
+            result = Math.min(result, 9.50);
+            sumInput.value = result.toFixed(2);
+
+            if (result >= 8) {
+                resultDiv.innerHTML = "Hoc sinh gioi";
+            } else if (result >= 6.5) {
+                resultDiv.innerHTML = "Hoc sinh kha";
+            } else if (result >= 5) {
+                resultDiv.innerHTML = "Hoc sinh trung binh";
+            } else {
+                resultDiv.innerHTML = "Hoc sinh yeu";
+            }
+        }
+
+        cancelBtn.onclick = function() {
+            sem1ScoreInput.value = '';
+            sem2ScoreInput.value = '';
+            yearSelect.selectedIndex = 1;  
+            sumInput.value = '';
+            resultDiv.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
